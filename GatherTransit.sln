@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GatherTransit", "GatherTransit\GatherTransit.csproj", "{93EDCD34-99D3-4ADA-AADE-AEC0A2930862}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MDL", "MDL\MDL.csproj", "{E30DCD5D-8B8C-4C99-B008-38DB919708FD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{93EDCD34-99D3-4ADA-AADE-AEC0A2930862}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93EDCD34-99D3-4ADA-AADE-AEC0A2930862}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{93EDCD34-99D3-4ADA-AADE-AEC0A2930862}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E30DCD5D-8B8C-4C99-B008-38DB919708FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E30DCD5D-8B8C-4C99-B008-38DB919708FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E30DCD5D-8B8C-4C99-B008-38DB919708FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E30DCD5D-8B8C-4C99-B008-38DB919708FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
