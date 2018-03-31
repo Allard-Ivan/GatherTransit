@@ -1,10 +1,9 @@
 ﻿using GatherTransit.Server.Model;
-using MDL;
+using GatherTransit.Utils;
+using Newtonsoft.Json;
 using socket.core.Server;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 
 namespace GatherTransit.Server
@@ -14,6 +13,8 @@ namespace GatherTransit.Server
         internal TcpPackServer server;
 
         private const string AZ = "abcdefghigklmnopqrstuvwxyz";
+
+        private const string HEART = "heart";
 
         /// <summary>
         /// 设置基本配置
@@ -49,37 +50,40 @@ namespace GatherTransit.Server
             string[] receiveData = result.Split('_');
             if (receiveData.Length == 2)
             {
-                if (receiveData[0] == "heart")
+                if (receiveData[0] == HEART)
                 {
-                    byte[] data = Encoding.UTF8.GetBytes("heart_abcdefghigklmnopqrstuvwxyz");
+                    byte[] data = Encoding.UTF8.GetBytes(HEART + "_" + AZ);
                     server.Send(arg1, data, 0, data.Length);
                     return;
                 }
             }
-            using (var stream = new MemoryStream())
+            Dictionary<string, RealData> myObject = JsonToDictionary<RealData>(result);
+            try
             {
-                stream.Write(arg2, 0, arg2.Length);
-                stream.Position = 0;
-                var binFormatters = new BinaryFormatter();
-                Dictionary<string, MDL.RealData> myObject = binFormatters.Deserialize(stream) as Dictionary<string, MDL.RealData>;
-                stream.Flush();
-                stream.Close();
-                try
-                {
-                    RedisHelper.SetAll(myObject);
-                }
-                catch (Exception ex)
-                {
-                    //LogHelper.WriteLog("Redis 写值失败", ex, new StackTrace());
-                    Console.WriteLine($"异常 {ex.Message}");
-                }
+                RedisHelper.SetAll(myObject);
             }
-        }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"异常 {ex.Message}");
+            }
+         }
 
         private void Server_OnClose(int obj)
         {
             //int aaa = server.GetAttached<int>(obj);
             Console.WriteLine($"Pack断开{obj}");
+        }
+
+        public Dictionary<string, T> JsonToDictionary<T>(string jsonData)
+        {
+            try
+            {
+                return JsonConvert.DeserializeObject<Dictionary<string, T>>(jsonData);
+            }
+            catch (Exception ex)
+            {
+                return new Dictionary<string, T>();
+            }
         }
     }
 }
