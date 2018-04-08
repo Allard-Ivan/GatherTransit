@@ -57,9 +57,14 @@ namespace GatherTransit.Server
                     return;
                 }
             }
-            Dictionary<string, RealData> myObject = JsonToDictionary<RealData>(result);
+            string[] receiveDataZmSpecial = result.Split("|||");
+            if (receiveDataZmSpecial.Length == 2)
+            {
+                result = receiveDataZmSpecial[0];
+            }
             try
             {
+                Dictionary<string, RealData> myObject = JsonToDictionary<RealData>(result);
                 RedisHelper.SetAll(myObject);
             }
             catch (Exception ex)
